@@ -41,8 +41,22 @@ class Store {
       });
   }
   //create a function to remove notes BY ID -- YOU CANNOT DO THIS WITHOUT GETTING UUID TO WORK
-  deleteNotes() {
+  updateDb() {
+    fs.writeFile("db/db.json", JSON.stringify(notes, "\t"), (err) => {
+      if (err) throw err;
+      return true;
+    });
+  }
 
+  deleteNotes(note) {
+    return this.read()
+      .then((notes) => {
+        notes.splice(req.params.id);
+        this.updateDb();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }
 
